@@ -3,11 +3,12 @@ import { Text, View, StyleSheet, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import SwipeCard from "./src/components/SwipeCard"
 
 function Feed() {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Feed!</Text>
+      <SwipeCard />
     </View>
   );
 }
