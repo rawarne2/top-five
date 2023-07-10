@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { SwipeCard } from "./src/components/SwipeCard"
+import SwipeCard from "./src/components/SwipeCard";
 
 function Feed() {
   return (
@@ -36,7 +36,7 @@ function MyTabs() {
     <Tab.Navigator
       initialRouteName="Feed"
       screenOptions={{
-        tabBarActiveTintColor: "#e91e63"
+        tabBarActiveTintColor: "#e91e63",
       }}
     >
       <Tab.Screen
@@ -46,7 +46,7 @@ function MyTabs() {
           tabBarLabel: "Settings",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="bell" color={color} size={size} />
-          )
+          ),
         }}
       />
       <Tab.Screen
@@ -56,7 +56,7 @@ function MyTabs() {
           tabBarLabel: "Home",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
-          )
+          ),
         }}
       />
       <Tab.Screen
@@ -66,7 +66,7 @@ function MyTabs() {
           tabBarLabel: "Matches",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="account" color={color} size={size} />
-          )
+          ),
         }}
       />
     </Tab.Navigator>
@@ -86,8 +86,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });
 
 const HomeScreen = ({ navigation }) => {

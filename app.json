@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "Top Five Dating App",
+    "slug": "top-five-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.rashaunwarner.topfiveapp",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.rashaunwarner.topfiveapp",
+      "versionCode": 1
+    },
+    "web": {},
+    "description": "My awesome Expo app",
+    "scheme": "myexpoapp"
+  }
+}
