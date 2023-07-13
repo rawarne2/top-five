@@ -1,91 +1,105 @@
-"use strict";
-
 import React, { useState } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 
-import SwipeCards from "react-native-swipe-cards";
+import Swiper from "react-native-deck-swiper";
 
-function Card({ image, name }) {
-  return (
-    <View style={styles.card}>
-      <Image style={styles.thumbnail} source={{ uri: image }} />
-      <Text style={styles.text}>This is card {name}</Text>
-    </View>
-  );
-}
-
-function NoMoreCards() {
+const NoMoreCards = () => {
+  console.log("No more cards");
   return (
     <View style={styles.noMoreCards}>
       <Text>No more cards</Text>
     </View>
   );
-}
+};
 
-const cards1 = [
-  { name: "1", image: "https://media.giphy.com/media/GfXFVHUzjlbOg/giphy.gif" },
-  { name: "2", image: "https://media.giphy.com/media/irTuv1L1T34TC/giphy.gif" },
-  { name: "3", image: "https://media.giphy.com/media/LkLL0HJerdXMI/giphy.gif" },
-  { name: "4", image: "https://media.giphy.com/media/fFBmUMzFL5zRS/giphy.gif" },
-  { name: "5", image: "https://media.giphy.com/media/oDLDbBgf0dkis/giphy.gif" },
-  { name: "6", image: "https://media.giphy.com/media/7r4g8V2UkBUcw/giphy.gif" },
-  { name: "7", image: "https://media.giphy.com/media/K6Q7ZCdLy8pCE/giphy.gif" },
-  { name: "8", image: "https://media.giphy.com/media/hEwST9KM0UGti/giphy.gif" },
-  {
-    name: "9",
-    image: "https://media.giphy.com/media/3oEduJbDtIuA2VrtS0/giphy.gif"
-  }
-];
-
-const cards2 = [
-  {
-    name: "10",
-    image: "https://media.giphy.com/media/12b3E4U9aSndxC/giphy.gif"
-  },
-  { name: "11", image: "https://media4.giphy.com/media/6csVEPEmHWhWg/200.gif" },
-  { name: "12", image: "https://media4.giphy.com/media/AA69fOAMCPa4o/200.gif" },
-  { name: "13", image: "https://media.giphy.com/media/OVHFny0I7njuU/giphy.gif" }
-];
+const Card = ({ cardData }) => (
+  <View style={styles.card}>
+    <Image style={styles.thumbnail} source={{ uri: cardData?.image }} />
+    <Text style={styles.text}>{cardData?.name}</Text>
+  </View>
+);
 
 export function SwipeCard() {
-  const [cards, setCards] = useState(cards1);
-  const [outOfCards, setOutOfCards] = useState(false);
+  const userCards = [
+    {
+      name: "name1",
+      image: "https://media.giphy.com/media/GfXFVHUzjlbOg/giphy.gif",
+      age: 28,
+    },
+    {
+      name: "name2",
+      image: "https://media.giphy.com/media/GfXFVHUzjlbOg/giphy.gif",
+      age: 18,
+    },
+    {
+      name: "name3",
+      image: "https://media.giphy.com/media/GfXFVHUzjlbOg/giphy.gif",
+      age: 25,
+    },
+    {
+      name: "name4",
+      image: "https://media.giphy.com/media/GfXFVHUzjlbOg/giphy.gif",
+      age: 35,
+    },
+    {
+      name: "name5",
+      image: "https://media.giphy.com/media/GfXFVHUzjlbOg/giphy.gif",
+      age: 45,
+    },
+    {
+      name: "name6",
+      image: "https://media.giphy.com/media/GfXFVHUzjlbOg/giphy.gif",
+      age: 50,
+    },
+    {
+      name: "name7",
+      image: "https://media.giphy.com/media/GfXFVHUzjlbOg/giphy.gif",
+      age: 19,
+    },
+    {
+      name: "name8",
+      image: "https://media.giphy.com/media/GfXFVHUzjlbOg/giphy.gif",
+      age: 26,
+    },
+    {
+      name: "name9",
+      image: "https://media.giphy.com/media/GfXFVHUzjlbOg/giphy.gif",
+      age: 22,
+    },
+    {
+      name: "name10",
+      image: "https://media.giphy.com/media/GfXFVHUzjlbOg/giphy.gif",
+      age: 29,
+    },
+  ];
+  const [cards, setCards] = useState(userCards);
 
+  const onSwiped = (index) => {
+    setCards((prevCards) => prevCards.slice(1));
+  };
   const handleYup = () => {
     console.log("yup");
   };
   const handleNope = () => {
     console.log("nope");
   };
-  const cardRemoved = index => {
-    console.log(`The index is ${index}`);
-
-    let CARD_REFRESH_LIMIT = 3;
-
-    if (cards.length - index <= CARD_REFRESH_LIMIT + 1) {
-      console.log(`There are only ${cards.length - index - 1} cards left.`);
-
-      if (!outOfCards) {
-        console.log(`Adding ${cards2.length} more cards`);
-
-        setCards(cards.concat(cards2));
-        setOutOfCards(true);
-      }
-    }
-  };
 
   return (
-    <SwipeCards
-      cards={cards}
-      loop={false}
-      renderCard={cardData => <Card {...cardData} />}
-      renderNoMoreCards={() => <NoMoreCards />}
-      showYup={true}
-      showNope={true}
-      handleYup={handleYup}
-      handleNope={handleNope}
-      cardRemoved={cardRemoved.bind(this)}
-    />
+    <View>
+      <Swiper
+        cards={cards}
+        renderCard={(cardData) => <Card cardData={cardData} />}
+        stackSize={10}
+        onSwiped={onSwiped}
+        onSwipedAll={() => <NoMoreCards />}
+        onSwipedRight={handleYup}
+        onSwipedLeft={handleNope}
+        verticalSwipe={false}
+        cardIndex={0}
+        horizontalThreshold={10}
+        key={cards.length}
+      />
+    </View>
   );
 }
 
@@ -97,20 +111,21 @@ const styles = StyleSheet.create({
     borderColor: "grey",
     backgroundColor: "white",
     borderWidth: 1,
-    elevation: 1
+    padding: 20,
+    zIndex: 1,
   },
   thumbnail: {
     width: 300,
-    height: 300
+    height: 300,
   },
   text: {
     fontSize: 20,
     paddingTop: 10,
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   noMoreCards: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 });
