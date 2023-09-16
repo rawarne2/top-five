@@ -19,7 +19,7 @@ const Card = ({ cardData }) => (
   </View>
 );
 
-export function SwipeCard() {
+export function SwipeCards() {
   const userCards = [
     {
       name: "name1",
@@ -89,7 +89,7 @@ export function SwipeCard() {
       <Swiper
         cards={cards}
         renderCard={(cardData) => <Card cardData={cardData} />}
-        stackSize={10}
+        stackSize={2}
         onSwiped={onSwiped}
         onSwipedAll={() => <NoMoreCards />}
         onSwipedRight={handleYup}

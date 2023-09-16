@@ -1,14 +1,18 @@
 import * as React from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { SwipeCard } from "./src/components/SwipeCard";
+import { SwipeCards } from "./src/components/SwipeCards";
+import AuthScreen from "./src/components/AuthScreen";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 function Feed() {
   return (
     <View>
-      <SwipeCard />
+      <SwipeCards />
     </View>
   );
 }
@@ -31,10 +35,10 @@ function Settings() {
 
 const Tab = createBottomTabNavigator();
 
-function MyTabs() {
+function BottomTabs() {
   return (
     <Tab.Navigator
-      initialRouteName="Feed"
+      initialRouteName="SwipeCards"
       screenOptions={{
         tabBarActiveTintColor: "#e91e63",
       }}
@@ -50,8 +54,8 @@ function MyTabs() {
         }}
       />
       <Tab.Screen
-        name="Feed"
-        component={Feed}
+        name="SwipeCards"
+        component={SwipeCards}
         options={{
           tabBarLabel: "Home",
           tabBarIcon: ({ color, size }) => (
@@ -75,9 +79,12 @@ function MyTabs() {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <MyTabs />
-    </NavigationContainer>
+    <QueryClientProvider client={queryClient}>
+      <NavigationContainer>
+        <AuthScreen />
+        {/* <BottomTabs /> */}
+      </NavigationContainer>
+    </QueryClientProvider>
   );
 }
 
@@ -89,15 +96,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
-const HomeScreen = ({ navigation }) => {
-  return (
-    <Button
-      title="Go to user's matches"
-      onPress={() => navigation.navigate("Matches", { name: "user" })}
-    />
-  );
-};
-const MatchesScreen = ({ navigation, route }) => {
-  return <Text>This is {route.params.name}'s Matches</Text>;
-};
