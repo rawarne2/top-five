@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Text, TextInput, Button, View, StyleSheet } from "react-native";
 import { useMutation } from "react-query";
 import axios from "axios";
+import { ACCESS_TOKEN } from "@env";
 
-const access_token = "ACCESS_TOKEN"; // replace with your access token
+const access_token = ACCESS_TOKEN; // replace with your access token
 
 const api = axios.create({
   baseURL: "http://127.0.0.1:8000/",
