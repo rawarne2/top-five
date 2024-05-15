@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 
 import Swiper from "react-native-deck-swiper";
+import { useAuth } from "../contexts/AuthContext";
 
 const NoMoreCards = () => {
   console.log("No more cards");
@@ -20,6 +21,8 @@ const Card = ({ cardData }) => (
 );
 
 export function SwipeCards() {
+  const { user } = useAuth();
+
   const userCards = [
     {
       name: "name1",
@@ -84,8 +87,10 @@ export function SwipeCards() {
     console.log("nope");
   };
 
+  console.log("SwipeCards - user: ", user);
+
   return (
-    <View>
+    <View style={styles.container}>
       <Swiper
         cards={cards}
         renderCard={(cardData) => <Card cardData={cardData} />}
@@ -99,6 +104,7 @@ export function SwipeCards() {
         horizontalThreshold={10}
         key={cards.length}
       />
+      <Text style={styles.text}>Hello {user?.first_name}!!!</Text>
     </View>
   );
 }
@@ -126,6 +132,10 @@ const styles = StyleSheet.create({
   noMoreCards: {
     flex: 1,
     justifyContent: "center",
+    alignItems: "center",
+  },
+  container: {
+    flex: 1,
     alignItems: "center",
   },
 });

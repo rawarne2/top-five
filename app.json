@@ -7,7 +7,10 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.rashaunwarner.topfiveapp",
-      "buildNumber": "1.0.0"
+      "buildNumber": "1.0.0",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.rashaunwarner.topfiveapp",

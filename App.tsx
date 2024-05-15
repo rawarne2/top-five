@@ -1,21 +1,13 @@
-import * as React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import React from "react";
+import { Text, View, StyleSheet, SafeAreaView, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SwipeCards } from "./src/components/SwipeCards";
-import AuthScreen from "./src/components/AuthScreen";
-import { QueryClient, QueryClientProvider } from "react-query";
-
-const queryClient = new QueryClient();
-
-function Feed() {
-  return (
-    <View>
-      <SwipeCards />
-    </View>
-  );
-}
+import LoginScreen from "./src/screens/LoginScreen";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AuthProvider, useAuth } from "./src/contexts/AuthContext";
+import { logout } from "./src/utils/authHelpers";
 
 function Matches() {
   return (
@@ -26,16 +18,22 @@ function Matches() {
 }
 
 function Settings() {
+  const { setUser, setIsLoggedIn, setIsLoading } = useAuth();
+
+  const handleLogout = async () => {
+    logout(setUser, setIsLoggedIn, setIsLoading);
+  };
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>Settings!</Text>
+      <Button title="Logout" onPress={handleLogout} />
     </View>
   );
 }
 
 const Tab = createBottomTabNavigator();
 
-function BottomTabs() {
+function AuthorizedUserTabs() {
   return (
     <Tab.Navigator
       initialRouteName="SwipeCards"
@@ -77,13 +75,34 @@ function BottomTabs() {
   );
 }
 
+function Loading() {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>Loading...</Text>
+    </View>
+  );
+}
+
+function MainComponent() {
+  const { isLoggedIn, isLoading } = useAuth();
+
+  if (isLoading) {
+    return <Loading />;
+  } else {
+    return isLoggedIn ? <AuthorizedUserTabs /> : <LoginScreen />;
+  }
+}
+
 export default function App() {
+  const queryClient = new QueryClient();
+
   return (
     <QueryClientProvider client={queryClient}>
-      <NavigationContainer>
-        <AuthScreen />
-        {/* <BottomTabs /> */}
-      </NavigationContainer>
+      <AuthProvider>
+        <NavigationContainer>
+          <MainComponent />
+        </NavigationContainer>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
@@ -91,8 +110,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: "lightgrey",
   },
 });
